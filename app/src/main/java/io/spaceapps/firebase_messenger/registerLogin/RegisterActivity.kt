@@ -1,17 +1,19 @@
-package io.spaceapps.firebase_messenger
+package io.spaceapps.firebase_messenger.registerLogin
 
 import android.app.Activity
-
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import io.spaceapps.firebase_messenger.R
+import io.spaceapps.firebase_messenger.messages.LatestMessagesActivity
+import io.spaceapps.firebase_messenger.models.User
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -125,6 +127,3 @@ class RegisterActivity : AppCompatActivity() {
     }
 }
 
-class User(val uid: String, val username: String, val profileImageUrl: String) {
-    constructor() : this("", "", "")
-}

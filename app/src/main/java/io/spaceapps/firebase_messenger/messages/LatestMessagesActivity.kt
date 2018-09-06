@@ -1,4 +1,4 @@
-package io.spaceapps.firebase_messenger
+package io.spaceapps.firebase_messenger.messages
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import io.spaceapps.firebase_messenger.R
+import io.spaceapps.firebase_messenger.registerLogin.RegisterActivity
 
 class LatestMessagesActivity : AppCompatActivity() {
 

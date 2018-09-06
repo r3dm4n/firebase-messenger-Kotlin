@@ -1,4 +1,4 @@
-package io.spaceapps.firebase_messenger
+package io.spaceapps.firebase_messenger.registerLogin
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import io.spaceapps.firebase_messenger.R
+import io.spaceapps.firebase_messenger.messages.LatestMessagesActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
