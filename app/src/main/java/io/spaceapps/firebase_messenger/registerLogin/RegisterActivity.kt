@@ -53,13 +53,11 @@ class RegisterActivity : AppCompatActivity() {
 
             select_photo_imageview_register.setImageBitmap(bitmap)
             selectphoto_button_register.alpha = 0f
-//            val bitmapDrawable = BitmapDrawable(bitmap)
-//            selectphoto_button_register.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
     private fun handleRegister() {
-        register_button_register.setOnClickListener {
+        register_button_register.setOnClickListener { view ->
             val email = email_edittext_register.text.toString()
             val password = password_edittext_register.toString()
 
