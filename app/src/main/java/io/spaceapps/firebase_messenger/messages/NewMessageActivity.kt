@@ -1,5 +1,6 @@
 package io.spaceapps.firebase_messenger.messages
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +19,10 @@ import kotlinx.android.synthetic.main.user_row_new_message.view.*
 class NewMessageActivity : AppCompatActivity() {
 
     private val TAG = "NewMessageActivity"
+
+    companion object {
+        val USER_KEY = "USER_KEY"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,15 @@ class NewMessageActivity : AppCompatActivity() {
                     if (user != null) {
                         adapter.add(UserItem(user))
                     }
+                }
+
+
+                adapter.setOnItemClickListener { item, _ ->
+                    val userItem = item as UserItem
+                    val intent = Intent(this@NewMessageActivity, ChatLogActivity::class.java)
+                    intent.putExtra(USER_KEY, userItem.user)
+                    startActivity(intent)
+                    finish()
                 }
 
                 recyclerView_newmessage.adapter = adapter

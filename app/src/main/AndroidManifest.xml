@@ -26,11 +26,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".registerLogin.LoginActivity" />
+
         <activity android:name=".messages.NewMessageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".messages.LatestMessagesActivity" />
         </activity>
+
+        <activity android:name=".messages.ChatLogActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".messages.LatestMessagesActivity" />
+        </activity>
+
     </application>
 
 </manifest>
