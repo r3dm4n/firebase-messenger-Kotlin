@@ -35,7 +35,7 @@ class ChatLogActivity : AppCompatActivity() {
 
         recyclerview_chat_log.adapter = adapter
 
-        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        toUser = intent.getParcelableExtra(NewMessageActivity.USER_KEY)
         supportActionBar?.title = toUser?.username
 
 
@@ -62,8 +62,6 @@ class ChatLogActivity : AppCompatActivity() {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
 
                 if (chatMessage != null) {
-                    Log.d(TAG, chatMessage.text)
-
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                         val currentUser = LatestMessagesActivity.currentUser ?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
@@ -100,7 +98,6 @@ class ChatLogActivity : AppCompatActivity() {
         if (fromId == null) return
 
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
-
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
@@ -108,12 +105,22 @@ class ChatLogActivity : AppCompatActivity() {
         reference.setValue(chatMessage)
                 .addOnSuccessListener {
                     edittext_chat_log.text.clear()
-
+                    scrollToBottom()
                 }
 
         toReference.setValue(chatMessage)
+                .addOnSuccessListener {
+                    edittext_chat_log.text.clear()
+                    scrollToBottom()
+                }
 
-        scrollToBottom()
+
+        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+        latestMessageRef.setValue(chatMessage)
+
+        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+        latestMessageToRef.setValue(chatMessage)
+
     }
 
     private fun scrollToBottom() {
@@ -142,7 +149,6 @@ class ChatToItem(val text: String, val user: User) : Item<ViewHolder>() {
 
         val targetImageView = viewHolder.itemView.imageview_chat_to_row
         Picasso.get().load(user.profileImageUrl).into(targetImageView)
-        Log.d("TAG", user.profileImageUrl)
     }
 
 }
