@@ -10,7 +10,7 @@ import io.spaceapps.firebase_messenger.R
 import io.spaceapps.firebase_messenger.messages.LatestMessagesActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,9 @@ class LoginActivity : AppCompatActivity() {
             performLogin()
         }
 
-
+        back_to_register_textview.setOnClickListener{
+            finish()
+        }
     }
 
     private fun performLogin() {
@@ -35,23 +37,17 @@ class LoginActivity : AppCompatActivity() {
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
-                    if (!it.isSuccessful) {
-                        return@addOnCompleteListener
-                    } else {
-                        Log.d("Login", "Successfully logged in: ${it.result.user.uid}")
+                    if (!it.isSuccessful) return@addOnCompleteListener
 
-                        val intent = Intent(this, LatestMessagesActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                    }
+                    Log.d("Login", "Successfully logged in: ${it.result.user.uid}")
 
+                    val intent = Intent(this, LatestMessagesActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }
-
                 .addOnFailureListener {
                     Toast.makeText(this, "Failed to log in: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
-
-
     }
 
 }
