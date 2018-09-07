@@ -3,6 +3,7 @@ package io.spaceapps.firebase_messenger.messages
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -10,14 +11,14 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import de.hdodenhof.circleimageview.CircleImageView
 import io.spaceapps.firebase_messenger.R
 import io.spaceapps.firebase_messenger.models.ChatMessage
 import io.spaceapps.firebase_messenger.models.User
 import io.spaceapps.firebase_messenger.registerLogin.RegisterActivity
+import io.spaceapps.firebase_messenger.views.LatestMessageRow
 import kotlinx.android.synthetic.main.activity_latest_message.*
-import kotlinx.android.synthetic.main.latest_message_row.view.*
 
 class LatestMessagesActivity : AppCompatActivity() {
 
@@ -25,6 +26,7 @@ class LatestMessagesActivity : AppCompatActivity() {
         var currentUser: User? = null
         val TAG = "LatestMessagesActivity"
     }
+
 
     val adapter = GroupAdapter<ViewHolder>()
     val latestMessagesMap = HashMap<String, ChatMessage>()
@@ -35,7 +37,15 @@ class LatestMessagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_latest_message)
 
         recycler_view_latest_messages.adapter = adapter
+        recycler_view_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
+        adapter.setOnItemClickListener { item, view ->
+
+            val row = item as LatestMessageRow
+            val intent = Intent(this, ChatLogActivity::class.java)
+            intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
+            startActivity(intent)
+        }
 
         listenForLatestMessages()
         fetchCurrentUser()
@@ -81,16 +91,6 @@ class LatestMessagesActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-
-    class LatestMessageRow(val chatMessage: ChatMessage) : Item<ViewHolder>() {
-        override fun getLayout(): Int = R.layout.latest_message_row
-
-        override fun bind(viewHolder: ViewHolder, position: Int) {
-            viewHolder.itemView.message_textView_latest_message.text = chatMessage.text
-        }
-
     }
 
 
@@ -146,3 +146,5 @@ class LatestMessagesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+
+
