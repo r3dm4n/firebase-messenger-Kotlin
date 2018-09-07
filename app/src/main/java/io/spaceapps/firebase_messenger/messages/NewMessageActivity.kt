@@ -3,6 +3,7 @@ package io.spaceapps.firebase_messenger.messages
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -37,6 +38,8 @@ class NewMessageActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/users/")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
+                Toast.makeText(this@NewMessageActivity, p0.message, Toast.LENGTH_SHORT).show()
+                return
             }
 
             override fun onDataChange(p0: DataSnapshot) {
